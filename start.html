@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Quiz Auswahl</title>
+  <style>
+    body { font-family: system-ui, Arial; margin:0; padding:16px; background:#f7f7f8; color:#111; }
+    .card { max-width:720px; margin:0 auto; background:#fff; padding:16px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+    h1 { font-size:1.2rem; margin:0 0 12px; }
+    .list { display:grid; gap:10px; }
+    button.choice { padding:14px; font-size:1rem; border:0; border-radius:8px; background:#0078d4; color:#fff; text-align:left; }
+    .small { font-size:0.9rem; color:#555; margin-top:8px; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Quiz auswählen</h1>
+    <div class="small">Wähle ein Quiz aus der Liste:</div>
+    <div class="list" id="list">Lade Auswahl...</div>
+    <div class="small" id="note"></div>
+  </div>
+
+<script>
+/* Lädt quizzes.json und erzeugt Buttons.
+   Format von quizzes.json: [{ "label": "Titel", "file": "datei.json" }, ...]
+*/
+
+// Pfad zur Konfigurationsdatei
+const QUIZZES_URL = 'quizzes.json';
+
+async function loadQuizzes(){
+  try{
+    const res = await fetch(QUIZZES_URL);
+    const data = await res.json();
+    const list = document.getElementById('list');
+    list.innerHTML = '';
+    if(!Array.isArray(data) || data.length === 0){
+      document.getElementById('note').textContent = 'Keine Quiz-Einträge gefunden.';
+      return;
+    }
+    // Für jeden Eintrag einen Button erstellen
+    data.forEach(item => {
+      const btn = document.createElement('button');
+      btn.className = 'choice';
+      // Beschriftung und optional kurze Dateiangabe
+      btn.textContent = item.label + (item.file ? ' — ' + item.file : '');
+      // Beim Klick: quiz-Seite öffnen und die gewählte Datei als query-Parameter übergeben
+      btn.onclick = () => {
+        // Wir öffnen index.html und übergeben ?q=DATEINAME
+        location.href = 'index.html?q=' + encodeURIComponent(item.file);
+      };
+      list.appendChild(btn);
+    });
+  } catch(e){
+    document.getElementById('list').textContent = 'Fehler beim Laden der Auswahl.';
+  }
+}
+
+// Beim Laden ausführen
+loadQuizzes();
+</script>
+</body>
+</html>

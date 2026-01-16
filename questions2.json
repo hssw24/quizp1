@@ -1,0 +1,13 @@
+[
+  {
+    "q": "In welcher Reihenfolge sind die 3 verbreiteten Temperaturskalen entstanden?",
+    "answers": ["Fahrenheit Clelsius Kelvin", "Celsius Fahrenheit Kelvin", "Kelvin Celsius Fahrenheit", "Fahrerheit Celsius Kelvin", "Fahrenheit Celsius Calvin", "Fahrenheit Celsius Kalvin", "Fahrenheit Celsius Kelvin"],
+    "correctIndex": 6
+  },
+  {
+    "q": "Wie lauten die Maßeinheiten für Fahrenheit, Celsius und Kelvin?",
+    "answers": ["°C, °K, F", "°C, °F, K", "F, C, K", "°F, °C, K", "°F, °C, °K"],
+    "correctIndex": 3
+  }
+
+]

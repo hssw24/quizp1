@@ -1,0 +1,13 @@
+[
+  {
+    "q": "Welche Aussage für Teilchen trifft in festen Stoffen nicht zu?",
+    "answers": ["Kleiner Abstand", "Geringe Bewegung", "Veränderung der Position ist möglich", "Position kann nicht verändert werden", "Bewegen sich nicht frei im Raum", "Starke Anziehungskräfte", "Befinden sich in einer Gitterstruktur"],
+    "correctIndex": 2
+  },
+  {
+    "q": "Welche Aussage ist falsch?",
+    "answers": ["Stoffe den sich bei Wärme aus", "Stoffe ziehen sich bei Kälte zusammen", "Teilchen bewegen sich in gasförmigen Zustand beliebig in der Atmosphäre", "Flüssigkeiten bewegen sich im Rahmen der Schwerkraft auf oder im Boden", "Teilchen können ihre Position in flüsigem Zustand verändern", "Ein fester Stoff existiert nach Sublimation nie wieder in der gleichen Zusammensetzung", "Gasförmige Teilchen haben keine Anziehungskräfte"],
+    "correctIndex": 4
+  }
+
+]

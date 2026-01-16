@@ -22,7 +22,7 @@
 </head>
 <body>
   <div class="card" id="app">
-    <h1>Kurzes Quiz VHS HM/Pyrmont</h1>
+    <h1>Physik Quiz - VHS HM/Pyrmont</h1>
     <div id="quiz-area">
       <div class="question" id="question">Lade Frage...</div>
       <div class="answers" id="answers"></div>
@@ -31,8 +31,6 @@
       <div class="footer">
         <button id="next" style="flex:1;padding:10px;border-radius:8px;border:0;background:#0b5; color:#fff;">Nächste</button>
         <button id="retry">Quiz wiederholen</button>
-        <!-- NEU: Button zur vorgeschalteten Auswahlseite; nur diese Zeile wurde hinzugefügt -->
-        <button id="choose" onclick="location.href='start.html'" style="padding:10px;border-radius:8px;border:0;background:#555;color:#fff;">Quiz auswählen</button>
       </div>
     </div>
   </div>
@@ -40,13 +38,8 @@
 <script>
 /* Sehr einfache Logik, gut kommentiert für Anfänger */
 
-/* 
-  Anpassung: Lese optionalen Query-Parameter "q" aus der URL, z.B.
-  index.html?q=animals.json
-  Falls kein Parameter vorhanden ist, wird 'questions.json' verwendet.
-*/
-const urlParams = new URLSearchParams(location.search);
-const QUESTIONS_URL = urlParams.get('q') ? decodeURIComponent(urlParams.get('q')) : 'questions.json';
+/* Pfad zur externen Datei mit Fragen */
+const QUESTIONS_URL = 'questions.json';
 
 let questions = [];           // alle Fragen
 let order = [];               // zufällige Reihenfolge der Indizes
@@ -71,7 +64,7 @@ async function loadQuestions(){
     questions = await res.json(); // erwartet ein Array von {q, answers:[], correctIndex}
     startQuiz();
   } catch(e){
-    document.getElementById('question').textContent = 'Fehler beim Laden der Fragen. Stelle sicher, dass ' + QUESTIONS_URL + ' erreichbar ist.';
+    document.getElementById('question').textContent = 'Fehler beim Laden der Fragen. Stelle sicher, dass questions.json erreichbar ist.';
   }
 }
 

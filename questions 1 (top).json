@@ -1,0 +1,117 @@
+[
+  {
+    "q": "Was gehört nicht dazu? (schwer!)",
+    "answers": ["Schmelzen", "Erstarren", "Gefrieren", "Kondensieren", "Verdunsten", "Sieden", "Resublimieren"],
+    "correctIndex": 6
+  },
+  {
+    "q": "Was gehört nicht dazu?",
+    "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Verduften", "Sublimieren", "Resublimieren"],
+    "correctIndex": 4
+  },
+  {
+    "q": "Was gehört nicht dazu?",
+    "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "flüssig zu flüssig", "gasförmig zu fest"],
+    "correctIndex": 5
+  },
+  {
+    "q": "Was passiert mit dem Stoff Wasser bei 0°C?",
+    "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"],
+    "correctIndex": 1
+  },
+  {
+    "q": "Welche Temperaturskala gibt es nicht?",
+    "answers": ["Celsius", "Tippemich", "Fahrenheit", "Kelvin"],
+    "correctIndex": 1
+  },
+  {
+    "q": "Was passiert mit dem Stoff Wasser bei 100°C?",
+    "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"],
+    "correctIndex": 2
+  },
+  {
+    "q": "Was passiert mit dem Stoff Wasser bei 100°C?",
+    "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"],
+    "correctIndex": 3
+  },
+  {
+    "q": "Was passiert mit dem Stoff Wasser bei 0°C?",
+    "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"],
+    "correctIndex": 1
+  },
+  {
+    "q": "Was passiert mit dem Stoff Wasser bei 0°C?",
+    "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"],
+    "correctIndex": 1
+  },
+  {
+    "q": "Welcher Übergang wird mit 'Sublimieren' bezeichnet?",
+    "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"],
+    "correctIndex": 4
+  },
+  {
+    "q": "Welcher Übergang wird mit 'Resublimieren' bezeichnet?",
+    "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"],
+    "correctIndex": 5
+  },
+  {
+    "q": "Welcher Übergang wird mit 'Verdampfen' bezeichnet?",
+    "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"],
+    "correctIndex": 3
+  },
+  {
+    "q": "Welcher Übergang wird mit 'Kondensieren' bezeichnet?",
+    "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"],
+    "correctIndex": 0
+  },
+  {
+    "q": "Welcher Übergang wird mit 'Schmelzen' bezeichnet?",
+    "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"],
+    "correctIndex": 2
+  },
+  {
+    "q": "Welcher Übergang wird mit 'Erstarren' bezeichnet?",
+    "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"],
+    "correctIndex": 1
+  },  
+  {
+    "q": "Wie wird der Übergang von fest zu gasförmig bezeichnet?",
+    "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"],
+    "correctIndex": 4
+  },
+  {
+    "q": "Wie wird der Übergang von gasförmig zu fest bezeichnet?",
+    "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"],
+    "correctIndex": 5
+  },
+  {
+    "q": "Wie wird der Übergang von fest zu flüssig bezeichnet?",
+    "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"],
+    "correctIndex": 0
+  },
+  {
+    "q": "Wie wird der Übergang von flüssig zu gasförmig bezeichnet?",
+    "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"],
+    "correctIndex": 2
+  },
+  {
+    "q": "Wie wird der Übergang von flüssig zu fest bezeichnet?",
+    "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"],
+    "correctIndex": 1
+  },
+  {
+    "q": "Wie wird der Übergang von gasförmig zu flüssig bezeichnet?",
+    "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"],
+    "correctIndex": 3
+  },
+  {
+    "q": "Wie viele Minuten hat eine Stunde?",
+    "answers": ["30", "45", "60", "90"],
+    "correctIndex": 2
+  },
+  {
+    "q": "Welches Tier bellt?",
+    "answers": ["Katze", "Vogel", "Hund", "Kuh"],
+    "correctIndex": 2
+  }
+]
