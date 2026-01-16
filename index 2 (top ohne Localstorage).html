@@ -8,11 +8,10 @@
     /* Einfaches, klares Styling für Handy */
     body { font-family: system-ui, Arial; margin: 0; padding: 16px; background:#f7f7f8; color:#111; }
     .card { max-width:720px; margin:0 auto; background:#fff; padding:16px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
-    h1 { font-size:1.2rem; margin:0 0 6px; }
-    .current { font-size:0.95rem; color:#333; margin:0 0 12px; }
+    h1 { font-size:1.2rem; margin:0 0 12px; }
     .question { font-size:1rem; margin:12px 0; }
     .answers { display:grid; gap:10px; }
-    button.answer { padding:12px; font-size:1rem; border:0; border-radius:8px; background:#e9eef8; text-align:left; }
+    button.answer { padding:12px; font-size:1rem; border:0; border-radius:8px; background:#e9eef8; }
     button.answer.correct { background:#c8f7d4; } /* grün bei richtig */
     button.answer.wrong { background:#ffd6d6; }   /* rot bei falsch */
     .small { font-size:0.9rem; color:#555; margin-top:8px; }
@@ -23,10 +22,7 @@
 </head>
 <body>
   <div class="card" id="app">
-    <h1>Kurzes Quiz</h1>
-    <!-- Anzeige des aktuell geladenen Quiz (lesbare Beschriftung aus quizzes.json) -->
-    <div class="current" id="currentQuiz">Lade Quiz-Auswahl...</div>
-
+    <h1>Kurzes Quiz VHS HM/Pyrmont</h1>
     <div id="quiz-area">
       <div class="question" id="question">Lade Frage...</div>
       <div class="answers" id="answers"></div>
@@ -35,77 +31,22 @@
       <div class="footer">
         <button id="next" style="flex:1;padding:10px;border-radius:8px;border:0;background:#0b5; color:#fff;">Nächste</button>
         <button id="retry">Quiz wiederholen</button>
-        <!-- Button zur vorgeschalteten Auswahlseite -->
+        <!-- NEU: Button zur vorgeschalteten Auswahlseite; nur diese Zeile wurde hinzugefügt -->
         <button id="choose" onclick="location.href='start.html'" style="padding:10px;border-radius:8px;border:0;background:#555;color:#fff;">Quiz auswählen</button>
       </div>
     </div>
   </div>
 
 <script>
-/* Kurz kommentierter, anfängerfreundlicher Code */
+/* Sehr einfache Logik, gut kommentiert für Anfänger */
 
-/* Verhalten:
- - Liest optionalen Query-Parameter q (z.B. index.html?q=animals.json).
- - Speichert zuletzt verwendetes Quiz in localStorage unter 'lastQuiz'.
- - Zeigt die vollständige Buttonbeschriftung (Label) aus quizzes.json als "Aktuelles Quiz".
- - Setzt den Next-Button erst nach Beantwortung der letzten Frage auf "Ergebnis".
+/* 
+  Anpassung: Lese optionalen Query-Parameter "q" aus der URL, z.B.
+  index.html?q=animals.json
+  Falls kein Parameter vorhanden ist, wird 'questions.json' verwendet.
 */
-
-// Hilfsfunktion: Query-Parameter sicher lesen
-function getQueryParam(name){
-  try {
-    const params = new URLSearchParams(location.search);
-    const v = params.get(name);
-    return v ? decodeURIComponent(v) : null;
-  } catch(e){
-    return null;
-  }
-}
-
-const PARAM_Q = getQueryParam('q');
-const STORAGE_KEY = 'lastQuiz';
-let QUESTIONS_URL = 'questions.json'; // Standard
-let quizzesMap = {}; // mapping file -> label
-
-// Bestimme zu ladende Datei und speichere ggf. in localStorage
-if(PARAM_Q){
-  QUESTIONS_URL = PARAM_Q;
-  try { localStorage.setItem(STORAGE_KEY, QUESTIONS_URL); } catch(e){ /* ignore */ }
-} else {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if(saved) QUESTIONS_URL = saved;
-  } catch(e){ /* ignore */ }
-}
-
-// Lädt quizzes.json und baut eine Map file -> label
-async function loadQuizzesMap(){
-  try{
-    const res = await fetch('quizzes.json');
-    if(!res.ok) throw new Error('no quizzes.json');
-    const data = await res.json();
-    if(Array.isArray(data)){
-      data.forEach(item => {
-        if(item && item.file && item.label) quizzesMap[item.file] = item.label;
-      });
-    }
-  } catch(e){
-    // still ok: map bleibt leer und wir zeigen Dateiname
-  } finally {
-    updateCurrentQuizDisplay();
-  }
-}
-
-// Anzeige des aktuell geladenen Quiz (Label wenn vorhanden, sonst Dateiname)
-function updateCurrentQuizDisplay(){
-  const el = document.getElementById('currentQuiz');
-  const label = quizzesMap[QUESTIONS_URL];
-  if(label){
-    el.textContent = 'Aktuelles Quiz: ' + label + ' — ' + QUESTIONS_URL;
-  } else {
-    el.textContent = 'Aktuelles Quiz: ' + QUESTIONS_URL;
-  }
-}
+const urlParams = new URLSearchParams(location.search);
+const QUESTIONS_URL = urlParams.get('q') ? decodeURIComponent(urlParams.get('q')) : 'questions.json';
 
 let questions = [];           // alle Fragen
 let order = [];               // zufällige Reihenfolge der Indizes
@@ -114,7 +55,7 @@ let correctCount = 0;
 let wrongCount = 0;
 let answered = false;         // verhindert mehrfaches Klicken
 
-// Mischen (Fisher-Yates)
+// Hilfsfunktion zum Mischen eines Arrays (Fisher-Yates)
 function shuffle(arr){
   for(let i = arr.length -1; i>0; i--){
     const j = Math.floor(Math.random()*(i+1));
@@ -127,8 +68,7 @@ function shuffle(arr){
 async function loadQuestions(){
   try{
     const res = await fetch(QUESTIONS_URL);
-    if(!res.ok) throw new Error('HTTP ' + res.status);
-    questions = await res.json(); // erwartet Array von {q, answers:[], correctIndex}
+    questions = await res.json(); // erwartet ein Array von {q, answers:[], correctIndex}
     startQuiz();
   } catch(e){
     document.getElementById('question').textContent = 'Fehler beim Laden der Fragen. Stelle sicher, dass ' + QUESTIONS_URL + ' erreichbar ist.';
@@ -137,28 +77,27 @@ async function loadQuestions(){
 
 // Quiz starten oder neu starten
 function startQuiz(){
+  // Reset
   correctCount = 0;
   wrongCount = 0;
   currentIndex = 0;
   answered = false;
+  // Erzeuge zufällige Reihenfolge der Fragen
   order = shuffle(Array.from(questions.keys()));
   showQuestion();
   updateScore();
   document.getElementById('feedback').textContent = '';
-  updateCurrentQuizDisplay();
 }
 
 // Frage anzeigen
 function showQuestion(){
   answered = false;
-  // Immer "Nächste" anzeigen beim Anzeigen einer neuen Frage
-  document.getElementById('next').textContent = 'Nächste';
-
   const qIndex = order[currentIndex];
   const q = questions[qIndex];
   document.getElementById('question').textContent = q.q;
   const answersDiv = document.getElementById('answers');
   answersDiv.innerHTML = '';
+  // Antworten als Buttons
   q.answers.forEach((text, i) => {
     const btn = document.createElement('button');
     btn.className = 'answer';
@@ -166,19 +105,22 @@ function showQuestion(){
     btn.onclick = () => selectAnswer(i, q.correctIndex, btn);
     answersDiv.appendChild(btn);
   });
+  // Wenn letzte Frage, passe Next-Button-Text an
+  document.getElementById('next').textContent = (currentIndex === order.length -1) ? 'Ergebnis' : 'Nächste';
 }
 
 // Antwort auswählen
 function selectAnswer(selected, correct, btn){
-  if(answered) return;
+  if(answered) return; // nur einmal pro Frage
   answered = true;
   const buttons = document.querySelectorAll('.answer');
+  // Markiere alle Buttons entsprechend
   buttons.forEach((b, i) => {
     if(i === correct) b.classList.add('correct');
     if(i === selected && i !== correct) b.classList.add('wrong');
     b.disabled = true;
   });
-
+  // Zähle und zeige Feedback
   if(selected === correct){
     correctCount++;
     document.getElementById('feedback').textContent = 'Richtig!';
@@ -187,11 +129,6 @@ function selectAnswer(selected, correct, btn){
     document.getElementById('feedback').textContent = 'Falsch. Richtige Antwort: ' + questions[order[currentIndex]].answers[correct];
   }
   updateScore();
-
-  // WICHTIG: Wenn dies die letzte Frage ist, setze jetzt den Button auf "Ergebnis"
-  if(currentIndex === order.length - 1){
-    document.getElementById('next').textContent = 'Ergebnis';
-  }
 }
 
 // Score aktualisieren
@@ -202,6 +139,7 @@ function updateScore(){
 // Nächste Frage oder Ergebnis anzeigen
 document.getElementById('next').addEventListener('click', () => {
   if(!answered){
+    // Wenn noch nicht geantwortet, ignoriere Klick
     document.getElementById('feedback').textContent = 'Bitte wähle zuerst eine Antwort.';
     return;
   }
@@ -227,8 +165,8 @@ function showResult(){
 // Quiz wiederholen
 document.getElementById('retry').addEventListener('click', startQuiz);
 
-// Initial: lade Mapping und dann Fragen
-loadQuizzesMap().then(loadQuestions);
+// Beim Laden die Fragen holen
+loadQuestions();
 
 /* Hinweis für lokale Tests
    Wenn du die Dateien lokal öffnest (file://), kann fetch blockiert werden.

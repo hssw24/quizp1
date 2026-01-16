@@ -24,7 +24,7 @@
 <body>
   <div class="card" id="app">
     <h1>Kurzes Quiz</h1>
-    <!-- Anzeige des aktuell geladenen Quiz (lesbare Beschriftung aus quizzes.json) -->
+    <!-- Anzeige des aktuell geladenen Quiz (Dateiname) -->
     <div class="current" id="currentQuiz">Lade Quiz-Auswahl...</div>
 
     <div id="quiz-area">
@@ -42,16 +42,17 @@
   </div>
 
 <script>
-/* Kurz kommentierter, anfängerfreundlicher Code */
+/* Sehr einfache Logik, gut kommentiert für Anfänger */
 
-/* Verhalten:
- - Liest optionalen Query-Parameter q (z.B. index.html?q=animals.json).
- - Speichert zuletzt verwendetes Quiz in localStorage unter 'lastQuiz'.
- - Zeigt die vollständige Buttonbeschriftung (Label) aus quizzes.json als "Aktuelles Quiz".
- - Setzt den Next-Button erst nach Beantwortung der letzten Frage auf "Ergebnis".
+/* 
+  Verhalten:
+  - Wenn URL-Parameter q vorhanden ist, wird diese Datei geladen und in localStorage als "lastQuiz" gespeichert.
+  - Wenn kein q-Parameter vorhanden ist, wird geprüft, ob "lastQuiz" im localStorage existiert und dann verwendet.
+  - Fallback: 'questions.json'
+  - Zusätzlich: Anzeige des aktuell geladenen Quiz (Dateiname) oben.
 */
 
-// Hilfsfunktion: Query-Parameter sicher lesen
+// Hilfsfunktion: sichere Abfrage des Query-Parameters q
 function getQueryParam(name){
   try {
     const params = new URLSearchParams(location.search);
@@ -62,50 +63,33 @@ function getQueryParam(name){
   }
 }
 
+// Bestimme die zu ladende Fragen-Datei
 const PARAM_Q = getQueryParam('q');
 const STORAGE_KEY = 'lastQuiz';
 let QUESTIONS_URL = 'questions.json'; // Standard
-let quizzesMap = {}; // mapping file -> label
 
-// Bestimme zu ladende Datei und speichere ggf. in localStorage
 if(PARAM_Q){
+  // Wenn q in der URL vorhanden ist, verwende und speichere es
   QUESTIONS_URL = PARAM_Q;
   try { localStorage.setItem(STORAGE_KEY, QUESTIONS_URL); } catch(e){ /* ignore */ }
 } else {
+  // Wenn kein q, versuche gespeichertes Quiz zu laden
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     if(saved) QUESTIONS_URL = saved;
-  } catch(e){ /* ignore */ }
-}
-
-// Lädt quizzes.json und baut eine Map file -> label
-async function loadQuizzesMap(){
-  try{
-    const res = await fetch('quizzes.json');
-    if(!res.ok) throw new Error('no quizzes.json');
-    const data = await res.json();
-    if(Array.isArray(data)){
-      data.forEach(item => {
-        if(item && item.file && item.label) quizzesMap[item.file] = item.label;
-      });
-    }
   } catch(e){
-    // still ok: map bleibt leer und wir zeigen Dateiname
-  } finally {
-    updateCurrentQuizDisplay();
+    // localStorage kann in manchen Umgebungen blockiert sein; dann bleibt der Standard
   }
 }
 
-// Anzeige des aktuell geladenen Quiz (Label wenn vorhanden, sonst Dateiname)
+// Funktion: Anzeige des aktuell geladenen Quiz aktualisieren
 function updateCurrentQuizDisplay(){
   const el = document.getElementById('currentQuiz');
-  const label = quizzesMap[QUESTIONS_URL];
-  if(label){
-    el.textContent = 'Aktuelles Quiz: ' + label + ' — ' + QUESTIONS_URL;
-  } else {
-    el.textContent = 'Aktuelles Quiz: ' + QUESTIONS_URL;
-  }
+  // Zeige lesbaren Text; falls QUESTIONS_URL leer, zeige Hinweis
+  el.textContent = QUESTIONS_URL ? ('Aktuelles Quiz: ' + QUESTIONS_URL) : 'Kein Quiz ausgewählt';
 }
+
+updateCurrentQuizDisplay(); // initial setzen
 
 let questions = [];           // alle Fragen
 let order = [];               // zufällige Reihenfolge der Indizes
@@ -114,7 +98,7 @@ let correctCount = 0;
 let wrongCount = 0;
 let answered = false;         // verhindert mehrfaches Klicken
 
-// Mischen (Fisher-Yates)
+// Hilfsfunktion zum Mischen eines Arrays (Fisher-Yates)
 function shuffle(arr){
   for(let i = arr.length -1; i>0; i--){
     const j = Math.floor(Math.random()*(i+1));
@@ -128,7 +112,7 @@ async function loadQuestions(){
   try{
     const res = await fetch(QUESTIONS_URL);
     if(!res.ok) throw new Error('HTTP ' + res.status);
-    questions = await res.json(); // erwartet Array von {q, answers:[], correctIndex}
+    questions = await res.json(); // erwartet ein Array von {q, answers:[], correctIndex}
     startQuiz();
   } catch(e){
     document.getElementById('question').textContent = 'Fehler beim Laden der Fragen. Stelle sicher, dass ' + QUESTIONS_URL + ' erreichbar ist.';
@@ -137,28 +121,28 @@ async function loadQuestions(){
 
 // Quiz starten oder neu starten
 function startQuiz(){
+  // Reset
   correctCount = 0;
   wrongCount = 0;
   currentIndex = 0;
   answered = false;
+  // Erzeuge zufällige Reihenfolge der Fragen
   order = shuffle(Array.from(questions.keys()));
   showQuestion();
   updateScore();
   document.getElementById('feedback').textContent = '';
-  updateCurrentQuizDisplay();
+  updateCurrentQuizDisplay(); // Anzeige aktualisieren (falls QUESTIONS_URL sich geändert hat)
 }
 
 // Frage anzeigen
 function showQuestion(){
   answered = false;
-  // Immer "Nächste" anzeigen beim Anzeigen einer neuen Frage
-  document.getElementById('next').textContent = 'Nächste';
-
   const qIndex = order[currentIndex];
   const q = questions[qIndex];
   document.getElementById('question').textContent = q.q;
   const answersDiv = document.getElementById('answers');
   answersDiv.innerHTML = '';
+  // Antworten als Buttons
   q.answers.forEach((text, i) => {
     const btn = document.createElement('button');
     btn.className = 'answer';
@@ -166,19 +150,22 @@ function showQuestion(){
     btn.onclick = () => selectAnswer(i, q.correctIndex, btn);
     answersDiv.appendChild(btn);
   });
+  // Wenn letzte Frage, passe Next-Button-Text an
+  document.getElementById('next').textContent = (currentIndex === order.length -1) ? 'Ergebnis' : 'Nächste';
 }
 
 // Antwort auswählen
 function selectAnswer(selected, correct, btn){
-  if(answered) return;
+  if(answered) return; // nur einmal pro Frage
   answered = true;
   const buttons = document.querySelectorAll('.answer');
+  // Markiere alle Buttons entsprechend
   buttons.forEach((b, i) => {
     if(i === correct) b.classList.add('correct');
     if(i === selected && i !== correct) b.classList.add('wrong');
     b.disabled = true;
   });
-
+  // Zähle und zeige Feedback
   if(selected === correct){
     correctCount++;
     document.getElementById('feedback').textContent = 'Richtig!';
@@ -187,11 +174,6 @@ function selectAnswer(selected, correct, btn){
     document.getElementById('feedback').textContent = 'Falsch. Richtige Antwort: ' + questions[order[currentIndex]].answers[correct];
   }
   updateScore();
-
-  // WICHTIG: Wenn dies die letzte Frage ist, setze jetzt den Button auf "Ergebnis"
-  if(currentIndex === order.length - 1){
-    document.getElementById('next').textContent = 'Ergebnis';
-  }
 }
 
 // Score aktualisieren
@@ -202,6 +184,7 @@ function updateScore(){
 // Nächste Frage oder Ergebnis anzeigen
 document.getElementById('next').addEventListener('click', () => {
   if(!answered){
+    // Wenn noch nicht geantwortet, ignoriere Klick
     document.getElementById('feedback').textContent = 'Bitte wähle zuerst eine Antwort.';
     return;
   }
@@ -227,8 +210,8 @@ function showResult(){
 // Quiz wiederholen
 document.getElementById('retry').addEventListener('click', startQuiz);
 
-// Initial: lade Mapping und dann Fragen
-loadQuizzesMap().then(loadQuestions);
+// Beim Laden die Fragen holen
+loadQuestions();
 
 /* Hinweis für lokale Tests
    Wenn du die Dateien lokal öffnest (file://), kann fetch blockiert werden.
