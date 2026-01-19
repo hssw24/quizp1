@@ -6,7 +6,7 @@
   },
   {
     "q": "Welche Aussage für Teilchen trifft in flüssigen Stoffen zu?",
-    "answers": ["Kleiner Abstand", "Geringe Bewegung", "Position kann nicht verändert werden", "Bewegen sich nicht frei im Raum", "Starke Anziehungskräfte", "Befinden sich in einer Gitterstruktur","Veränderung der Position ist möglich"],
+    "answers": ["Kleiner Abstand", "Geringe Bewegung", "Position kann nicht verändert werden", "Bewegen sich frei im Raum", "Starke Anziehungskräfte", "Befinden sich in einer Gitterstruktur","Veränderung der Position ist möglich"],
     "correctIndex": 6
   },
   {
