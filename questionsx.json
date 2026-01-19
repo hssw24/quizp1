@@ -5,6 +5,16 @@
     "correctIndex": 0
   },
   {
+    "q": "Stoffe dehnen sich bei Erwärmung unterschiedlich stark aus.",
+    "answers": ["richtig", "falsch", "teilweise richtig"],
+    "correctIndex": 0
+  },
+  {
+    "q": "Warum kann eine Getränkedose im Auto explodieren? Welche Antwort ist falsch?",
+    "answers": ["Bei hoher Temperatur kann die Dose explodieren.", "Bei Frost kann die Dose explodieren.", "Die Flüssigkeit dehnt sich bei Wärme stärker aus als das Metall.", "Die Flüssigkeit dehnt sich bei Frost stärker aus als das Metall. (= Anomalie des Wassers)", "Die Flüssigkeit zieht sich bei Frost immer weiter zusammen."],
+    "correctIndex": 0
+  },
+  {
     "q": "Es gibt in der Schulphysik ... Aggregatzustände.",
     "answers": ["6", "4", "3", "5", "keine Antwort ist korrekt"],
     "correctIndex": 2
