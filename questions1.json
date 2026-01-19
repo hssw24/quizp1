@@ -16,7 +16,7 @@
   },
   {
     "q": "Welche Aussage ist falsch?",
-    "answers": ["Stoffe den sich bei Wärme aus", "Stoffe ziehen sich bei Kälte zusammen", "Teilchen bewegen sich in gasförmigen Zustand beliebig in der Atmosphäre", "Flüssigkeiten bewegen sich im Rahmen der Schwerkraft auf oder im Boden", "Teilchen können ihre Position in flüsigem Zustand verändern", "Ein fester Stoff existiert nach Sublimation nie wieder in der gleichen Zusammensetzung", "Gasförmige Teilchen haben keine Anziehungskräfte"],
+    "answers": ["Stoffe dehnen sich bei Wärme aus", "Stoffe ziehen sich bei Kälte zusammen", "Teilchen bewegen sich in gasförmigen Zustand beliebig in der Atmosphäre", "Flüssigkeiten bewegen sich im Rahmen der Schwerkraft auf oder im Boden", "Teilchen können ihre Position in flüsigem Zustand verändern", "Ein fester Stoff existiert nach Sublimation nie wieder in der gleichen Zusammensetzung", "Gasförmige Teilchen haben keine Anziehungskräfte"],
     "correctIndex": 6
   },
   {
