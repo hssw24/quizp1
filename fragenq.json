@@ -1,33 +1,69 @@
 [
   {
-    "q": "1",
+    "q": "Welche Regel gilt nicht?",
     "answers": [
-      "1",
-      "2",
-      "3",
-      "",
-      ""
+      "Stoffe dehnen sich bei Wärmezufuhr aus.",
+      "Warme Luft steigt nach oben.",
+      "Stoffe ziehen sich bei Abkühlung zusammen.",
+      "Kalte Luft sinkt zum Boden.",
+      "Dämmmaterial ist ein guter Wärmeleiter.",
+      "Alle Gase dehnen sich gleich stark aus."
     ],
-    "correctIndex": 0
+    "correctIndex": 4
   },
   {
-    "q": "2",
+    "q": "Welche Aussage ist falsch?",
     "answers": [
-      "1",
-      "2",
-      "3",
+      "Durch Wärmezufuhr werden feste Stoffe flüssig.",
+      "Durch Wärmeentzug werden flüssige Stoffe gasförmig.",
+      "Wird einem Gas Wärme entzogen, wird es flüssig.",
       ""
     ],
     "correctIndex": 1
   },
   {
-    "q": "3",
+    "q": "Welcher Satz stimmt nicht?",
     "answers": [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5"
+      "Wird der Körper erwärmt, dann nimmt die Bewegung der Teilchen zu.",
+      "In festen Stoffen schwingen die Teilchen um ihre Plätze, ohne sie zu verlassen.",
+      "In festen Stoffen bewegen sich die Teilchen nicht.",
+      "Am absoluten Nullpunkt bewegen sich die Teilchen nicht.",
+      "Durch Wärme vergrößert sich der Abstand der Teilchen."
+    ],
+    "correctIndex": 2
+  },
+  {
+    "q": "Welcher Begriff passt nicht dazu?",
+    "answers": [
+      "Siedepunkt ",
+      "100 °C",
+      "Siedetemperatur ",
+      "Verdunstungstemperatur ",
+      "Kondensationstemperatur "
+    ],
+    "correctIndex": 3
+  },
+
+  {
+    "q": "Welche Aussage ist falsch?",
+    "answers": [
+      "Die Erstarrungsenergie je kg Wasser beträgt 336 kJ.",
+      "Die Gefrierenergie je kg Wasser beträgt 336 kJ.",
+      "Die Schmelzenergie je kg Eis beträgt 336 kJ.",
+      "Die Erwärmungsenergie je kg Wasser je 1 K beträgt 4,2 kJ.",
+      "Die Verdampfungsenergie je kg Eis beträgt 2258 kJ.",
+      "Die Kondensationsenergie je kg Wasserdampf beträgt 2258 kJ."
+    ],
+    "correctIndex": 4
+  },
+  {
+    "q": "Welche Aussage ist falsch?",
+    "answers": [
+      "Durch die Zufuhr von Energie kann sich die Temperatur eines Körpers erhöhen.",
+      "Beim Erreichen der Schmelztemperatur ändert sich der Aggregatzustände.",
+      "Wird die Temperatur einer Flüssigkeit bis zur Siedetemperatur erhöht, sind die Bindungskräfte der Teilchen so gering, dass der Stoff in den festen Zustand übergeht.",
+      "Wird einem Körper Energie entzogen, kann sich seine Temperatur verringern.",
+      "Wird die Temperatur einer Flüssigkeit bis zur Siedetemperatur erhöht, sind die Bindungskräfte der Teilchen so gering, dass der Stoff in den gasförmigen Zustand übergeht."
     ],
     "correctIndex": 2
   }
