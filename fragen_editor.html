@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Fragen-Editor</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f3f5f7;color:#17202a;font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid #d9dee3;padding:12px 14px}
+h1{font-size:20px;margin:0 0 8px}
+.toolbar{display:flex;gap:7px;flex-wrap:wrap}
+button{border:0;border-radius:9px;padding:9px 12px;font-size:14px;font-weight:600;background:#e7ebef;color:#17202a}
+button.primary{background:#1769e0;color:white}
+button.danger{background:#ffe1e1;color:#a40000}
+button:active{transform:scale(.98)}
+#list{max-width:850px;margin:12px auto 90px;padding:0 10px}
+.card{background:#fff;border:1px solid #d9dee3;border-radius:12px;margin-bottom:10px;overflow:hidden}
+.cardhead{display:flex;align-items:center;gap:8px;padding:9px 10px;background:#f8f9fa}
+.num{font-weight:700;min-width:34px}
+.cardhead button{padding:6px 9px;margin-left:auto}
+.content{padding:12px}
+label{display:block;font-size:13px;font-weight:700;margin:0 0 5px;color:#4b5560}
+textarea,input{width:100%;border:1px solid #c8cfd6;border-radius:8px;padding:9px;font:inherit;background:white}
+textarea{min-height:70px;resize:vertical}
+.answers{margin-top:12px;display:grid;gap:7px}
+.answer{display:grid;grid-template-columns:30px 1fr 36px;gap:7px;align-items:center}
+.answer input[type=radio]{width:20px;height:20px;margin:auto}
+.answer .del{padding:7px}
+.addanswer{margin-top:8px}
+.meta{margin-top:10px;font-size:12px;color:#68737d}
+#empty{padding:35px;text-align:center;color:#68737d}
+@media(max-width:600px){
+  header{padding:10px}
+  .toolbar button{flex:1}
+  .answer{grid-template-columns:30px 1fr 36px}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Fragen-Editor</h1>
+  <div class="toolbar">
+    <button class="primary" onclick="addQuestion()">＋ Neue Frage</button>
+    <button onclick="saveFile()">💾 JSON speichern</button>
+    <button onclick="importFile()">📂 JSON laden</button>
+    <button class="danger" onclick="clearAll()">Alle löschen</button>
+  </div>
+  <input id="fileInput" type="file" accept=".json,.txt,application/json,text/plain" hidden onchange="loadFile(event)">
+</header>
+
+<main id="list"></main>
+
+<script>
+let questions = [{"q": "Was gehört nicht dazu? (schwer!)", "answers": ["Schmelzen", "Erstarren", "Gefrieren", "Kondensieren", "Verdunsten", "Sieden", "Resublimieren"], "correctIndex": 6}, {"q": "Was gehört nicht dazu?", "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Verduften", "Sublimieren", "Resublimieren"], "correctIndex": 4}, {"q": "Was gehört nicht dazu?", "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "flüssig zu flüssig", "gasförmig zu fest"], "correctIndex": 5}, {"q": "Was passiert mit dem Stoff Wasser bei 0°C?", "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"], "correctIndex": 1}, {"q": "Welche Temperaturskala gibt es nicht?", "answers": ["Celsius", "Tippemich", "Fahrenheit", "Kelvin"], "correctIndex": 1}, {"q": "Was passiert mit dem Stoff Wasser bei 100°C?", "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"], "correctIndex": 2}, {"q": "Was passiert mit dem Stoff Wasser bei 100°C?", "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"], "correctIndex": 3}, {"q": "Was passiert mit dem Stoff Wasser bei 0°C?", "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"], "correctIndex": 1}, {"q": "Was passiert mit dem Stoff Wasser bei 0°C?", "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"], "correctIndex": 1}, {"q": "Welcher Übergang wird mit 'Sublimieren' bezeichnet?", "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"], "correctIndex": 4}, {"q": "Welcher Übergang wird mit 'Resublimieren' bezeichnet?", "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"], "correctIndex": 5}, {"q": "Welcher Übergang wird mit 'Verdampfen' bezeichnet?", "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"], "correctIndex": 3}, {"q": "Welcher Übergang wird mit 'Kondensieren' bezeichnet?", "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"], "correctIndex": 0}, {"q": "Welcher Übergang wird mit 'Schmelzen' bezeichnet?", "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"], "correctIndex": 2}, {"q": "Welcher Übergang wird mit 'Erstarren' bezeichnet?", "answers": ["gasförmig zu flüssig", "flüssig zu fest", "fest zu flüssig", "flüssig zu gasförmig", "fest zu gasförmig", "gasförmig zu fest"], "correctIndex": 1}, {"q": "Wie wird der Übergang von fest zu gasförmig bezeichnet?", "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"], "correctIndex": 4}, {"q": "Wie wird der Übergang von gasförmig zu fest bezeichnet?", "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"], "correctIndex": 5}, {"q": "Wie wird der Übergang von fest zu flüssig bezeichnet?", "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"], "correctIndex": 0}, {"q": "Wie wird der Übergang von flüssig zu gasförmig bezeichnet?", "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"], "correctIndex": 2}, {"q": "Wie wird der Übergang von flüssig zu fest bezeichnet?", "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"], "correctIndex": 1}, {"q": "Wie wird der Übergang von gasförmig zu flüssig bezeichnet?", "answers": ["Schmelzen", "Erstarren", "Verdampfen", "Kondensieren", "Sublimieren", "Resublimieren"], "correctIndex": 3}, {"q": "Wie viele Minuten hat eine Stunde?", "answers": ["30", "45", "60", "90"], "correctIndex": 2}, {"q": "Welches Tier bellt?", "answers": ["Katze", "Vogel", "Hund", "Kuh"], "correctIndex": 2}];
+
+function esc(v){
+  return String(v ?? '').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+
+function render(){
+  const list=document.getElementById('list');
+  if(!questions.length){list.innerHTML='<div class="card" id="empty">Noch keine Fragen vorhanden.<br>Mit „＋ Neue Frage“ kannst du beginnen.</div>';return;}
+  list.innerHTML=questions.map((q,i)=>`
+    <section class="card">
+      <div class="cardhead">
+        <span class="num">Frage ${i+1}</span>
+        <button onclick="moveQuestion(${i},-1)" ${i===0?'disabled':''}>↑</button>
+        <button onclick="moveQuestion(${i},1)" ${i===questions.length-1?'disabled':''}>↓</button>
+        <button class="danger" onclick="deleteQuestion(${i})">🗑</button>
+      </div>
+      <div class="content">
+        <label>Frage</label>
+        <textarea oninput="questions[${i}].q=this.value">${esc(q.q)}</textarea>
+
+        <div class="answers">
+          ${q.answers.map((a,j)=>`
+            <div class="answer">
+              <input type="radio" name="correct-${i}" ${q.correctIndex===j?'checked':''}
+                     onchange="questions[${i}].correctIndex=${j}" title="Richtige Antwort">
+              <input value="${esc(a)}" oninput="questions[${i}].answers[${j}]=this.value">
+              <button class="del danger" onclick="deleteAnswer(${i},${j})" title="Antwort löschen">×</button>
+            </div>
+          `).join('')}
+        </div>
+        <button class="addanswer" onclick="addAnswer(${i})">＋ Antwort hinzufügen</button>
+        <div class="meta">Richtige Antwort: ${q.correctIndex>=0 && q.answers[q.correctIndex]!==undefined ? esc(q.answers[q.correctIndex]) : 'keine ausgewählt'}</div>
+      </div>
+    </section>`).join('');
+}
+
+function addQuestion(){
+  questions.push({q:"",answers:["","","",""],correctIndex:0});
+  render();
+  setTimeout(()=>document.querySelectorAll('.card textarea')[questions.length-1]?.focus(),50);
+  window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'});
+}
+function deleteQuestion(i){
+  if(confirm(`Frage ${i+1} wirklich löschen?`)){questions.splice(i,1);render();}
+}
+function addAnswer(i){questions[i].answers.push("");render();}
+function deleteAnswer(i,j){
+  if(questions[i].answers.length<=1){alert("Mindestens eine Antwort muss vorhanden sein.");return;}
+  questions[i].answers.splice(j,1);
+  if(questions[i].correctIndex===j) questions[i].correctIndex=0;
+  else if(questions[i].correctIndex>j) questions[i].correctIndex--;
+  render();
+}
+function moveQuestion(i,d){
+  const n=i+d;if(n<0||n>=questions.length)return;
+  [questions[i],questions[n]]=[questions[n],questions[i]];render();
+}
+function saveFile(){
+  const blob=new Blob([JSON.stringify(questions,null,2)],{type:"application/json;charset=utf-8"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download="fragenq.json";a.click();
+  URL.revokeObjectURL(a.href);
+}
+function importFile(){document.getElementById('fileInput').click();}
+function loadFile(e){
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();
+  r.onload=()=>{
+    try{
+      const x=JSON.parse(r.result);
+      if(!Array.isArray(x))throw new Error("Das JSON muss ein Array sein.");
+      questions=x.map(q=>({
+        q:String(q.q??""),
+        answers:Array.isArray(q.answers)?q.answers.map(String):[""],
+        correctIndex:Number.isInteger(q.correctIndex)?q.correctIndex:0
+      }));
+      render();
+    }catch(err){alert("Datei konnte nicht geladen werden:\\n"+err.message);}
+  };
+  r.readAsText(file,"utf-8");e.target.value="";
+}
+function clearAll(){
+  if(confirm("Wirklich alle Fragen löschen?")){questions=[];render();}
+}
+render();
+</script>
+</body>
+</html>
