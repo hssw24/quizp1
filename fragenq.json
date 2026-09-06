@@ -16,8 +16,7 @@
     "answers": [
       "Durch Wärmezufuhr werden feste Stoffe flüssig.",
       "Durch Wärmeentzug werden flüssige Stoffe gasförmig.",
-      "Wird einem Gas Wärme entzogen, wird es flüssig.",
-      ""
+      "Wird einem Gas Wärme entzogen, wird es flüssig."
     ],
     "correctIndex": 1
   },
@@ -43,7 +42,18 @@
     ],
     "correctIndex": 3
   },
-
+  {
+    "q": "Welche Angabe ist nicht richtig?",
+    "answers": [
+      "Kondensationsenergie Wasserdampf 2258 kJ",
+      "Verdampfungsenergie Wasser 2258 kJ",
+      "Schmelzenergie Eis 336 kJ",
+      "Gefrierenergie Eis 336 kJ",
+      "Erstarrungsenergie Wasser 336 kJ",
+      "Erwärmungsenergie je Grad Celsius 4,2 kJ"
+    ],
+    "correctIndex": 3
+  },
   {
     "q": "Welche Aussage ist falsch?",
     "answers": [
@@ -66,5 +76,38 @@
       "Wird die Temperatur einer Flüssigkeit bis zur Siedetemperatur erhöht, sind die Bindungskräfte der Teilchen so gering, dass der Stoff in den gasförmigen Zustand übergeht."
     ],
     "correctIndex": 2
+  },
+  {
+    "q": "Welcher Begriff passt nicht dazu?",
+    "answers": [
+      "Siedetemperatur ",
+      "Kondensationstemperatur ",
+      "Gefriertemperatur ",
+      "Schmelztemperatur ",
+      "Erstarrungstemperatur ",
+      "Verdampfungsenergie ",
+      "Verdunstungstemperatur "
+    ],
+    "correctIndex": 5
+  },
+  {
+    "q": "Welche Aussage zum Kochen in der Küche ist richtig?",
+    "answers": [
+      "Wasserdampf gibt beim Kondensieren Wärme ab.",
+      "Beim Sieden gibt das Wasser Wärme an die Raumluft ab.",
+      "Der Herd und die Töpfe strahlen beim Kochen keine Hitze ab.",
+      "Wasserdampf kondensiert bei Temperaturen über dem Siedepunkt."
+    ],
+    "correctIndex": 0
+  },
+  {
+    "q": "Warum friert man, wenn man am Meer das Wasser verlässt?",
+    "answers": [
+      "Verdunstungskühlung",
+      "Verdampfungskühlung",
+      "Luft kühler als Wasser",
+      "Körpertemperatur sinkt"
+    ],
+    "correctIndex": 0
   }
 ]
